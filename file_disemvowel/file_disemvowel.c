@@ -25,7 +25,7 @@ int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
      */
     int i;
     int j = 0;
-    for (i = 0; i <= num_chars; i++) {
+    for (i = 0; i < num_chars; i++) {
       if (!is_vowel(in_buf[i])) {
         out_buf[j] = in_buf[i];
         j++;
@@ -45,11 +45,12 @@ void disemvowel(FILE* inputFile, FILE* outputFile) {
     char *out_buf = (char*) calloc(BUF_SIZE, sizeof(char));
 
     int i = BUF_SIZE;
+    int j = 0;
 
     while(i == BUF_SIZE) {
       i = fread(in_buf, sizeof(char), BUF_SIZE, inputFile);
-      copy_non_vowels(i, in_buf, out_buf);
-      fwrite(out_buf, sizeof(char), i, outputFile);
+      j = copy_non_vowels(i, in_buf, out_buf);
+      fwrite(out_buf, sizeof(char), j, outputFile);
     }
 
     free(in_buf);
@@ -62,6 +63,13 @@ int main(int argc, char *argv[]) {
     // provides files names as command line arguments.
     FILE *inputFile = stdin;
     FILE *outputFile = stdout;
+
+    if (argc == 2 || argc == 3) {
+      FILE *inputFile = fopen(argv[1], 'r');
+    }
+    if (argc == 3) {
+      FILE *outputFile = fopen(argv[2], 'w');
+    }
 
     // Code that processes the command line arguments
     // and sets up inputFile and outputFile.

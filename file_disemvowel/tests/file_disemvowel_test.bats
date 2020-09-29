@@ -34,7 +34,6 @@ teardown() {
 # Hit ^D to terminate the program and check taht your program
 # handles command line arguments properly.
 @test "file_disemvowel works with specified input and standard output" {
-    skip "Remove the 'skip' line in this test when you've implemented command line argument handling."
     ./file_disemvowel tests/small_input > "$BATS_TMPDIR"/small_output
     run diff -wbB tests/small_output "$BATS_TMPDIR"/small_output
     [ "$status" -eq 0 ]
@@ -50,7 +49,6 @@ teardown() {
 # of disemvoweling, then you may be writing to standard output
 # instead of to the file specified as a command line argument.
 @test "file_disemvowel works with specified input and output files" {
-    skip "Remove the 'skip' line in this test when you've implemented command line argument handling."
     rm -f "$BATS_TMPDIR"/small_output
     ./file_disemvowel tests/small_input "$BATS_TMPDIR"/small_output
     run diff -wbB tests/small_output "$BATS_TMPDIR"/small_output
