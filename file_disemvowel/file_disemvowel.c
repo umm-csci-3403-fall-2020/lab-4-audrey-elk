@@ -8,6 +8,12 @@ bool is_vowel(char c) {
      * Returns true if c is a vowel (upper or lower case), and
      * false otherwise.
      */
+     if (c = 'A' || c = 'E' || c = 'I' || c = 'O' || c = 'U' ||
+         c = 'a' || c = 'e' || c = 'i' || c = 'o' || c = 'u') {
+       return true;
+     }
+     return false;
+
 }
 
 int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
@@ -17,6 +23,14 @@ int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
      * and this function should return the number of non-vowels that
      * that were copied over.
      */
+     int i = 0;
+     int j = 0;
+     for (i; i <= num_chars; i++) {
+	if (!is_vowel(in_buf[i]) {
+	  out_buf[j] = in_buf[i];
+          j++;
+     }
+     return j;
 }
 
 void disemvowel(FILE* inputFile, FILE* outputFile) {
@@ -32,8 +46,8 @@ int main(int argc, char *argv[]) {
     // You should set these to `stdin` and `stdout` by default
     // and then set them to user specified files when the user
     // provides files names as command line arguments.
-    FILE *inputFile;
-    FILE *outputFile;
+    FILE *inputFile = stdin;
+    FILE *outputFile = stdout;
     char buffer[BUF_SIZE];
 
     // Code that processes the command line arguments
