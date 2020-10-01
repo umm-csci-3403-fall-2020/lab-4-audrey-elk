@@ -44,10 +44,10 @@ void disemvowel(FILE* inputFile, FILE* outputFile) {
     char *in_buf = (char*) calloc(BUF_SIZE, sizeof(char));
     char *out_buf = (char*) calloc(BUF_SIZE, sizeof(char));
 
-    int i = BUF_SIZE;
+    int i = 1;
     int j = 0;
 
-    while(i == BUF_SIZE) {
+    while(i != 0) {
       i = fread(in_buf, sizeof(char), BUF_SIZE, inputFile);
       j = copy_non_vowels(i, in_buf, out_buf);
       fwrite(out_buf, sizeof(char), j, outputFile);
@@ -64,11 +64,20 @@ int main(int argc, char *argv[]) {
     FILE *inputFile = stdin;
     FILE *outputFile = stdout;
 
-    if (argc == 2 || argc == 3) {
-      FILE *inputFile = fopen(argv[1], 'r');
+    if (argc >= 2) {
+      inputFile = fopen(argv[1], "r");
+      if (inputFile == NULL) {
+        perror("fopen()");
+        exit(1);
+      }
     }
+
     if (argc == 3) {
-      FILE *outputFile = fopen(argv[2], 'w');
+      outputFile = fopen(argv[2], "w");
+      if (outputFile == NULL) {
+        perror("fopen()");
+        exit(1);
+      }
     }
 
     // Code that processes the command line arguments
