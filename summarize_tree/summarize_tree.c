@@ -7,6 +7,8 @@
 #include <string.h>
 
 static int num_dirs, num_regular;
+
+bool is_dir(const char* path) {
    /* Use the stat() function (try "man 2 stat") to determine if the file
    * referenced by path is a directory or not.  Call stat, and then use
    * S_ISDIR to see if the file is a directory. Make sure you check the
@@ -23,6 +25,13 @@ static int num_dirs, num_regular;
  * order them so that the definitions all precede the cause.
  */
 void process_path(const char*);
+
+void process_file(const char* path) {
+  /*
+   * Update the number of regular files.
+   */
+        num_regular++;
+}
 
 void process_directory(const char* path) {
   /*
@@ -47,7 +56,7 @@ void process_directory(const char* path) {
       if (file == NULL){
 	break;	
       }
-      else if(is_dir(file)){
+      else if(is_dir(file->d_name)){
 	process_directory(file->d_name);		
 	num_dirs++;
       }
@@ -57,13 +66,6 @@ void process_directory(const char* path) {
    }
    closedir(dir);
    chdir("..");
-}
-
-void process_file(const char* path) {
-  /*
-   * Update the number of regular files.
-   */
-	num_regular++;
 }
 
 void process_path(const char* path) {
