@@ -16,7 +16,7 @@ bool is_dir(const char* path) {
    * the file doesn't actually exist.
    */
    struct stat buf;	
-   stat(path, &buf);
+   stat(path, &buf); 
    return S_ISDIR(buf.st_mode);
 }
 
@@ -45,23 +45,21 @@ void process_directory(const char* path) {
    * with a matching call to chdir() to move back out of it when you're
    * done.
    */
+
    DIR *dir;
    struct dirent *file;
+   num_dirs++;
 
-   chdir(path);
    dir = opendir(path);
+   chdir(path);
 
    for (;;){
       file = readdir(dir);
       if (file == NULL){
 	break;	
       }
-      else if(is_dir(file->d_name)){
-	process_directory(file->d_name);		
-	num_dirs++;
-      }
-      else{
-	process_file(file->d_name);
+      else if(strcmp(file->d_name,".")!=0 && strcmp(file->d_name,"..")!=0){
+	process_path(file->d_name);		
       }
    }
    closedir(dir);
