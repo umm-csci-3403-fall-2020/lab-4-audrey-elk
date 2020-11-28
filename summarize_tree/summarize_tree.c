@@ -9,13 +9,15 @@
 static int num_dirs, num_regular;
 
 bool is_dir(const char* path) {
-  /*
-   * Use the stat() function (try "man 2 stat") to determine if the file
+   /* Use the stat() function (try "man 2 stat") to determine if the file
    * referenced by path is a directory or not.  Call stat, and then use
    * S_ISDIR to see if the file is a directory. Make sure you check the
    * return value from stat in case there is a problem, e.g., maybe the
    * the file doesn't actually exist.
    */
+   struct stat buf;	
+   stat(path, &buf); 
+   return S_ISDIR(buf.st_mode);
 }
 
 /* 
@@ -23,6 +25,13 @@ bool is_dir(const char* path) {
  * order them so that the definitions all precede the cause.
  */
 void process_path(const char*);
+
+void process_file(const char* path) {
+  /*
+   * Update the number of regular files.
+   */
+        num_regular++;
+}
 
 void process_directory(const char* path) {
   /*
@@ -36,12 +45,25 @@ void process_directory(const char* path) {
    * with a matching call to chdir() to move back out of it when you're
    * done.
    */
-}
 
-void process_file(const char* path) {
-  /*
-   * Update the number of regular files.
-   */
+   DIR *dir;
+   struct dirent *file;
+   num_dirs++;
+
+   dir = opendir(path);
+   chdir(path);
+
+   for (;;){
+      file = readdir(dir);
+      if (file == NULL){
+	break;	
+      }
+      else if(strcmp(file->d_name,".")!=0 && strcmp(file->d_name,"..")!=0){
+	process_path(file->d_name);		
+      }
+   }
+   closedir(dir);
+   chdir("..");
 }
 
 void process_path(const char* path) {
